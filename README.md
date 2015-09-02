@@ -4,4 +4,4 @@ If you'd like to read through my course notes -- the file called 'custom_directi
 
 I've also downloaded and included Dan Wahlin's code from the course.
 
-** My notes are no substitute for [the course itself](https://www.udemy.com/angularjs-custom-directives/), which I highly recommend you experience yourself if you're looking for an in-depth tutorial on writing custom AngularJS directives. **
+**My notes are no substitute for [the course itself](https://www.udemy.com/angularjs-custom-directives/), which I highly recommend you experience yourself if you're looking for an in-depth tutorial on writing custom AngularJS directives.**

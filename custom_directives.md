@@ -1228,44 +1228,490 @@ angular.module('directivesModule')
 
 ### Replacing Link() with a Controller
 
+<!doctype html>
+<html ng-app="directivesModule">
+  <body>
+    <div ng-app="directivesModule"
+         ng-controller="CustomersController">
+      <h3>Without Controller</h3>
+      <without-Controller datasource="customers" add="addCustomer">
+      </without-controller>
+      <br>
+      <h3>With Controller</h3>
+      <with-controller datasource="customers" add="addCustomer">
+      </with-controller>
+      <br>
+    </div>
+    <script src="../../scripts/angular.js"></script>
+    <script src="../../scripts/directivesController.js"></script>
+    <script src="withoutController.js"></script>
+    <script src="withController.js"></script>
+  </body>
+</html>
+
+withController.js:
+(function() {
+  var withController = function () {
+
+    // we'll create variables that represent our view and our controller
+    var template = '<button ng-click="addItem()">Add Item</button><ul>' +
+                   '<li ng-repeat="item in items">{{ ::item.name }}</li></ul>',
+
+        // injecting $scope will give us access to any of the isolate scope
+        // properties included below
+
+        controller = ['$scope', function($scope) {
+
+          init();
+
+          function init() {
+
+            // first thing we do is copy the datasource object so we don't 
+            // alter the original data, just as before...
+      
+            // since datasource is locally scoped via '=', any changes we make
+            // to it locally will update the outer value...
+
+            // we'll iterate through the array of copied items
+
+            $scope.items = angular.copy($scope.datasource);
+          }
+
+          $scope.addItem() {
+            var name = 'New Directive Controller Item';
+
+            // why this approach?
+
+            $scope.add()(name);
+
+            $scope.items.push({
+              name: name
+            });
+          }
+        }];
 
 
+    return {
+      restrict: 'EA', //Default in 1.3+
+      scope: {
+          datasource: '=',
+          add: '&',
+      },
+      controller: controller, // define controller just as we did link in 
+                              // prev examples
+      template: template
+    };
+  };
 
-
-
-
+  angular.module('directivesModule')
+    .directive('withController', withController);
+}());
 
 
 ### Using controllerAs
 
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Shared Scope Directive (controllerAs)</title>
+</head>
+<body>
+  <div data-ng-app="directivesModule"
+       data-ng-controller="CustomersController">
+    <br>
+    <h3>Using controllerAs</h3>
+    <br>
+    <controller-as datasource="customers" add="addCustomer">
+    </controller-as>
+    <br>
+  </div>
+  <script src="../../scripts/angular.js"></script>
+  <script src="../../scripts/directivesController.js"></script>
+  <script src="controllerAs.js"></script>
+</body>
+</html>
 
+controllerAs.js:
+(function() {
 
+  var controllerAs = function () {
 
+    // have to adjust template to account for vm rather than $scope
+    var template = '<button ng-click="vm.addItem()">Add Item</button><ul>' +
+                   '<li ng-repeat="item in vm.items">{{ ::item.name }}</li></ul>',
 
+        // with controllerAs, remove $scope dependency and replace with vm
+        controller = function() {
 
+          var vm = this;
 
+          init();
 
+          function init() {
+            vm.items = angular.copy(vm.datasource);
+          }
+
+          vm.addItem = function() {
+            var name = 'New Directive Controller Item';
+            vm.add()(name);
+            vm.items.push({
+              name: name
+            });
+          }
+        };
+
+    return {
+      restrict: 'EA', //Default in angular ^1.3
+      scope: {
+          datasource: '=',
+          add: '&',
+      },
+      controller: controller,
+      controllerAs: 'vm', // ADDED
+      bindToController: true, //ADDED (required for angular ^1.3)
+      template: template
+    };
+  };
+
+  angular.module('directivesModule')
+    .directive('controllerAs', controllerAs);
+}());
 
 ### Adding a Controller to TableHelper
 
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Table Helper DOM Directive</title>
+  <style>
+    th { text-align:left; background-color: #ccc;cursor:pointer;}
+    td { width:150px; }
+    .tableHelper { font-family: 'Arial' }
+    .rowCount { font-weight: bold; }
+  </style>
+</head>
+<body>
+  <div data-ng-app="directivesModule"
+       data-ng-controller="CustomersController">
+    <br>
+    <h3 ng-click="addCustomer()">Table Helper Controller Directive</h3>
+    <table-helper datasource="customers"
+      columnmap="[{name: 'Name'}, {street: 'Street'}, {age: 'Age'}, {url: 'URL', hidden: true}]">
+    </table-helper>
+  </div>
+  <script src="../../scripts/angular.js"></script>
+  <script src="../../scripts/directivesController.js"></script>
+  <script src="tableHelper.js"></script>
+</body>
+</html>
 
+tableHelper.js:
+(function() {
 
+  var tableHelper = function () {
 
+    var controller = ['$scope', function($scope) {
+      var vm = this,
+          visibleProps = [];
 
+      vm.columns = [];
+      vm.reverse = false;
+      vm.orderby;
 
+      $scope.$watchCollection('datasource', getColumns);
+
+      //Handle sorting of data as user clicks on a column in the table
+      
+      vm.sort = function(col) {
+        if (vm.columnmap) {
+
+          // The col value is the "friendly" value so we need to figure out
+          // the "raw" value
+
+          rawCol = getRawColumnName(col);
+          vm.reverse = (vm.orderby === rawCol) ? !vm.reverse: false;
+          vm.orderby = rawCol;
+        }
+        else {
+          vm.reverse = (vm.orderby === col) ? !vm.reverse: false;
+          vm.orderby = col;
+        }
+      }
+
+      //Get the columns to display in the table header
+
+      function getColumns() {
+
+        // Since columnmap is an '@' property in this example (to demonstrate
+        // we can do that) we need to convert it to an object.
+        // Can use $scope.$eval or $parse service ($parse is in another 
+        // example)
+        // See https://docs.angularjs.org/guide/expression
+
+        vm.columnmap = $scope.$eval(vm.columnmap);
+
+        if (vm.columnmap) {
+
+          //Use columnmap to handle displaying columns
+
+          vm.columnmap.forEach(function(map) {
+            if (!map.hidden) {
+              for (var prop in map) {
+                if (prop !== 'hidden') pushColumns(prop, map[prop]);
+              }
+            }
+          });
+        }
+        else {
+
+          //No column map so default to raw properties
+
+          for (var prop in vm.datasource[0]) {
+            pushColumns(prop, prop);
+          }
+        }
+      }
+
+      // Load each row's values in the proper order based upon order of the 
+      // columnmap.
+
+      // We could use ng-repeat="(key,value) in row" on the <td> but the order
+      // that data is written out won't match with the headers. This function
+      // handles that issue.
+
+      vm.getRowValues = function(row) {
+        var sortedValues = [];
+        if (vm.columnmap) {
+          visibleProps.forEach(function(prop) {
+            sortedValues.push(row[prop]);
+          });
+        }
+        return sortedValues;
+      };
+
+      function getRawColumnName(friendlyCol) {
+        var rawCol;
+        vm.columnmap.forEach(function(colMap) {
+          for (var prop in colMap) {
+            if (colMap[prop] === friendlyCol) {
+              rawCol = prop;
+              break;
+            }
+          }
+          return null;
+        });
+        return rawCol;
+      }
+
+      function pushColumns(rawCol, renamedCol) {
+        visibleProps.push(rawCol);
+        vm.columns.push(renamedCol);
+      }
+
+    }];
+
+    return {
+      restrict: 'E',
+      replace: true,
+      scope: {
+        columnmap: '@',
+        datasource: '='
+      },
+      controller: controller,
+      controllerAs: 'vm',
+      bindToController: true,
+      templateUrl: 'tableHelperTemplate.html' // ADDED -- store template
+                                              // externally (see below)
+    };
+  };
+
+  angular.module('directivesModule')
+    .directive('tableHelper', tableHelper);
+}());
+
+tableHelperTemplate.html:
+<div>
+  <table>
+    <thead>
+      <tr>
+        <th ng-repeat="col in vm.columns"
+            ng-click="vm.sort(col)">{{col}}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="row in vm.datasource | orderBy:vm.orderby:vm.reverse">
+        <td ng-repeat="value in vm.getRowValues(row)">{{value}}</td>
+      </tr>
+    </tbody>
+  </table>
+  <br />
+  <div class="rowCount">{{vm.datasource.length}} rows</div>
+</div>
+
+We can do the same exact thing with a controller as we can with a link function.
+There can be performance gains to be realized by controlling everything in the link function.
+For instance, if you're employing a table that has a lot of data, you might want to have more control over everything and employ a link function.
+
+If the table only has a few hundred rows or fewer, there may only be a minimal advantage to the link function, and then you can mitigate the performance hits by doing the one-time bindings as we did before with the custom compile function -- this will minimize the number of watches.
 
 
 ### Passing Parameters Out of a Directive
 
+There may be times when you want to pass parameters out of a directive into a function, but how do you accomplish this?
 
+example html:
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Controller Passing a Parameter</title>
+  </head>
+  <body>
+    <div data-ng-app="directivesModule"
+         data-ng-controller="CustomersController">
+      <br>
+      Parent Scope Customers:
+      <br><br>
+      <ul>
+        <li ng-repeat="cust in customers">{{ cust.name }}</li>
+      </ul>
+      <br>
+      <h3>Passing Parameters out of a Directive Controller</h3>
+      <!-- In example 1 we have to pass in the name parameter to the function to get it to work -->
+      Example 1: <div controller-passing-parameter1 datasource="customers" add="addCustomer(name)"></div>
+      <br><br>
+      <!-- In example 2 we're passing in a reference to the function, but we have to unwrap it, which is what we'll use vm.add() to do in the directive -->
+      Example 2: <div controller-passing-parameter2 datasource="customers" add="addCustomer"></div>
+      <br>
+    </div>
+    <script src="../../scripts/angular.js"></script>
+    <script src="../../scripts/directivesController.js"></script>
+    <script src="controllerPassingParameter1.js"></script>
+    <script src="controllerPassingParameter2.js"></script>
+  </body>
+</html>
 
+Recall that in the CustomersController, there is a function called addCustomer, which takes a parameter 'name'.
+When we invoke addCustomer, how do we get data out of the directive and pass it as the parameter?
 
+controllerPassingParameter1.js:
+(function() {
 
+  var controllerPassingParameter1 = function () {
 
+    var controller = function () {
 
+      var vm = this;
+
+      init();
+
+      function init() {
+        vm.items = angular.copy(vm.datasource);
+      }
+
+      vm.addItem = function () {
+        var name = 'New Customer Added by Directive: vm.add({name: name});';
+
+        // our directive in html: 
+        // '<div controller-passing-parameter2 datasource="customers" 
+        // add="addCustomer(name)"></div>'
+
+        // Call external scope's function -- addCustomer(name) -- but this
+        // method is a little inflexible, because the parameter we pass in has
+        // to match exactly the parameter in the 'add' attribute's function
+        
+        vm.add({name: name});
+
+        //Add new item to directive scope
+        vm.items.push({
+          name: name
+        });
+      };
+    },
+
+    template = '<button ng-click="vm.addItem()">Add Item</button><ul>' +
+               '<li ng-repeat="item in vm.items">{{ ::item.name }}</li></ul>';
+
+    return {
+      restrict: 'EA',
+      scope: {
+        datasource: '=',
+        add: '&',
+      },
+      controller: controller,
+      controllerAs: 'vm',
+      bindToController: true,
+      template: template
+    };
+  };
+
+  angular.module('directivesModule')
+    .directive('controllerPassingParameter1', controllerPassingParameter1);
+}());
+
+controllerPassingParameter2.js:
+(function() {
+
+  var controllerPassingParameter2 = function () {
+
+    var controller = function () {
+
+      var vm = this;
+
+      init();
+
+      function init() {
+        vm.items = angular.copy(vm.datasource);
+      }
+
+      vm.addItem = function () {
+        var name = 'New Customer Added by Directive: vm.add()(name)';
+
+        // our directive in html: 
+        // '<div controller-passing-parameter2 datasource="customers" 
+        // add="addCustomer"></div>'
+
+        // ^^^ Here we'll get a reference to the external function, then
+        // invoke it, then pass in the name as its parameter:
+
+        vm.add()(name);
+
+        // ^^^ This is a little more flexible and maintainable, because we can
+        // pass whatever we want as a parameter into the function.
+        // It could be var foo, var apple, var whatever. 
+
+        //Add new item to directive scope
+        vm.items.push({
+          name: name
+        });
+      };
+    },
+
+    template = '<button ng-click="vm.addItem()">Add Item</button><ul>' +
+               '<li ng-repeat="item in vm.items">{{ ::item.name }}</li></ul>';
+
+    return {
+      restrict: 'EA',
+      scope: {
+        datasource: '=',
+        add: '&',
+      },
+      controller: controller,
+      controllerAs: 'vm',
+      bindToController: true,
+      template: template
+    };
+  };
+
+  angular.module('directivesModule')
+    .directive('controllerPassingParameter2', controllerPassingParameter2);
+}());
+
+Although in the above example we used a controllerAs property, we could do the same thing in a plain controller property just by changing vm to $scope, or in a link function as well.
 
 
 ### Understanding Transclusion
+
+
 
 
 
