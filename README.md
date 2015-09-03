@@ -1,6 +1,6 @@
 ## Course Notes and Code from Dan Wahlin's Udemy course entitled 'Learn to Build AngularJS Custom Directives with Dan Wahlin'
 
-If you'd like to read through my course notes -- the file called 'custom_directives.md' -- you'll want to view the raw file, because there's quite a lot of html in the notes that will not render as such in the compiled markdown file.
+If you'd like to read through my course notes -- the file called 'custom_directives.md' -- you'll might prefer to view the raw file, because there's quite a lot of html in the notes, and it might be easier more comprehensible in the raw format.
 
 I've also downloaded and included Dan Wahlin's code from the course.
 
