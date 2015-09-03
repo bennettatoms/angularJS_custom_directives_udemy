@@ -67,7 +67,7 @@ Topics to be covered:
 
 Start with a wrapper function -- pulls everything out of the global scope and keep everything clean (can do for modules, directives, controllers, services, etc.)
 
-helloWorldDirective.js: 
+#### helloWorldDirective.js: 
 
 (function() {
   
@@ -233,7 +233,7 @@ Isolate Scope in Directive:
 If you create isolate scope within the directive, the directive has no knowledge of the $scope.customers array. 
 We have to use the local scope properties to pass data through the wall.
 
-directivesController.js:
+#### directivesController.js:
 
 var app = angular.module('directivesModule', []);
 
@@ -288,6 +288,8 @@ app.controller('CustomersController', ['$scope', function ($scope) {
     template: 'Name: {{customer.name}}<br /> Street: {{customer.street}}'
   };
 });
+
+#### index.html:
 
 <html ng-app="directivesModule">
 <head>
@@ -407,6 +409,8 @@ Both of the above are good use cases for the link() function.
 
 Dan Wahlin prefers to structure his directives, controllers, services, etc. as follows:
 
+#### linkDemo.js:
+
 (function() {                 // structure directives this way to prevent 
                               // global variables and to just focus
   var linkDemo = function() { // on the function for the directive
@@ -491,7 +495,8 @@ to use the above directive:
 ### Building a TableHelper Directive -- a directive that takes any kind of data and maps it out to a table
 
 
-our tableHelper.html:
+#### tableHelper.html:
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -519,7 +524,9 @@ our tableHelper.html:
 </body>
 </html>
 
-our directive, tableHelper.js:
+our directive, 
+#### tableHelper.js:
+
 (function() {        
 
   var tableHelper = function() { 
@@ -713,7 +720,10 @@ our directive, tableHelper.js:
 Use the 'require' statement inside the DDO to include Angular's built-in (or your own custom) directives inside the custom directive you are writing.
 
 We'll create a new table helper directive, but this time we'll use ng-model:
-our directive, tableHelperWithNgModel.js:
+our directive, 
+
+#### tableHelperWithNgModel.js:
+
 (function() {        
 
   var tableHelperWithNgModel = function() { 
@@ -855,6 +865,8 @@ OR, could do the following:
 ### Building a Google Maps Directive
 We'll build a link function that will work with Google maps's geolocation
 
+#### mapGeoLocation.html:
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -872,7 +884,7 @@ We'll build a link function that will work with Google maps's geolocation
 
 We're going to create a directive where all you need to do is give the directive a height and a width, and the directive will render a google map with your location plotted on it.
 
-mapGeolocation.js:
+#### mapGeolocation.js:
 
 (function() {
   
@@ -972,6 +984,8 @@ All three of the above are stored in an object literal, and this is actually wha
 We'll create a directive that delays creating bindings until the user interacts with them. 
 If we have a page with a large number of list items in an ng-repeat, then it takes a lot of memory to generate them and add/watch bindings to them on page load.
 
+#### delayBindWithCompile.html:
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -1006,7 +1020,7 @@ The <li> element's title attribute will populate with the customer's 'street' va
 
 Similarly, the href attribute in the <a> tag will not update with the customer's url until the user mouses over that anchor.
 
-delayBindWithCompile.js:
+#### delayBindWithCompile.js:
 
 (function() {
 
@@ -1099,6 +1113,8 @@ delayBindWithCompile.js:
 ### Is link() Always Appropriate? 
   There are some other options to use besides link()
 
+#### useLinkOrNot.html:
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -1121,7 +1137,7 @@ delayBindWithCompile.js:
 </body>
 </html>
 
-useLinkOrNot.js:
+#### useLinkOrNot.js:
 
 (function() {
   var useLinkOrNot = function() {
@@ -1228,6 +1244,8 @@ angular.module('directivesModule')
 
 ### Replacing Link() with a Controller
 
+#### withWithoutController.html:
+
 <!doctype html>
 <html ng-app="directivesModule">
   <body>
@@ -1249,7 +1267,8 @@ angular.module('directivesModule')
   </body>
 </html>
 
-withController.js:
+#### withController.js:
+
 (function() {
   var withController = function () {
 
@@ -1310,6 +1329,8 @@ withController.js:
 
 ### Using controllerAs
 
+#### controllerAs.html:
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -1331,7 +1352,8 @@ withController.js:
 </body>
 </html>
 
-controllerAs.js:
+#### controllerAs.js:
+
 (function() {
 
   var controllerAs = function () {
@@ -1379,6 +1401,8 @@ controllerAs.js:
 
 ### Adding a Controller to TableHelper
 
+#### tableHelper.html:
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -1405,7 +1429,8 @@ controllerAs.js:
 </body>
 </html>
 
-tableHelper.js:
+#### tableHelper.js:
+
 (function() {
 
   var tableHelper = function () {
@@ -1529,7 +1554,8 @@ tableHelper.js:
     .directive('tableHelper', tableHelper);
 }());
 
-tableHelperTemplate.html:
+#### tableHelperTemplate.html:
+
 <div>
   <table>
     <thead>
@@ -1559,7 +1585,8 @@ If the table only has a few hundred rows or fewer, there may only be a minimal a
 
 There may be times when you want to pass parameters out of a directive into a function, but how do you accomplish this?
 
-example html:
+#### example html:
+
 <!DOCTYPE html>
 <html>
   <head>
@@ -1593,7 +1620,8 @@ example html:
 Recall that in the CustomersController, there is a function called addCustomer, which takes a parameter 'name'.
 When we invoke addCustomer, how do we get data out of the directive and pass it as the parameter?
 
-controllerPassingParameter1.js:
+#### controllerPassingParameter1.js:
+
 (function() {
 
   var controllerPassingParameter1 = function () {
@@ -1648,7 +1676,8 @@ controllerPassingParameter1.js:
     .directive('controllerPassingParameter1', controllerPassingParameter1);
 }());
 
-controllerPassingParameter2.js:
+#### controllerPassingParameter2.js:
+
 (function() {
 
   var controllerPassingParameter2 = function () {
@@ -1711,58 +1740,1197 @@ Although in the above example we used a controllerAs property, we could do the s
 
 ### Understanding Transclusion
 
+What is transclusion? 
+Inclusion of a document or part of a document into another document by reference [Wikipedia](http://en.wikipedia.org/wiki/Transclusion)
+
+Similar to includes
+
+Transclusion and Directives -- want the user to define the content that goes into a directive at runtime
+
+#### myDirective:
+
+<div class="container" ng-transclude>
+  Content provided by consumer of directive (as child of div element)
+</div> 
+
+external html:
+<div>
+  Hello
+</div>
+
+...becomes:
+<div class="container">
+  <div>
+    Hello
+  </div>
+</div>
+
+Can be described as including, wrapping a template in your directive, modifying a template.
+
+How can we transclude content into our custom directives?
+
+#### transclusion.html:
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Shared Scope Directive</title>
+</head>
+<body>
+    <div data-ng-app="directivesModule"
+         data-ng-controller="CustomersController">
+      <br>
+      <h3>Directive with Transclusion</h3>
+      <br />
+      <transclusion tasks="tasks">
+        <!-- <div>Hello World</div> -->
+        <!-- The div below is the content that will be merged in via the ng-transclude tags in the directive's template -->
+        <div ng-repeat="task in tasks track by $index">
+          <strong>{{ task.title }}</strong> 
+        </div>
+      </transclusion>
+    </div>
+    <script src="../../scripts/angular.js"></script>
+    <script src="../../scripts/directivesController.js"></script>
+    <script src="transclusion.js"></script>
+</body>
+</html>
 
 
+#### transclusion.js:
+
+(function() {
+
+  var transclusion = function () {
+    var template = '<div>Name: <input type="text" ng-model="vm.title" />&nbsp;' +
+      '<button ng-click="vm.addTask()">Add Task</button>' +
+      '<div class="taskContainer"><br />' +
+      '<ng-transclude></ng-transclude>' + // include the ng-transclude tags
+                                          // in template (element available in 
+                                          // Angular 1.3+, attribute with 1.2)
+                                          // this marks where the content will
+                                          // be included
+      '</div></div>',
+
+    controller = function () {
+      var vm = this;
+
+      vm.addTask = function () {
+
+        if (!vm.tasks) vm.tasks = [];
+
+        vm.tasks.push({
+          title: vm.title
+        });
+
+      };
+    };
+
+    return {
+      restrict: 'E',
+      transclude: true, // ADD THIS TO DDO -- tells directive that there will
+                        // be some child content that needs to get merged in
+      scope: {
+        tasks: '='
+      },
+      controller: controller,
+      controllerAs: 'vm',
+      bindToController: true,
+      template: template
+    };
+  };
+
+  angular.module('directivesModule')
+    .directive('transclusion', transclusion);
+}());
+
+In the next example we'll see how we can next directives. 
+
+The following no longer uses the columnmap, but rather there's a separate header directive within the tableHelper directive that has a mapto property on scope that accomplishes the same.
+
+#### tableHelperTransclude.html:
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Table Helper DOM Directive</title>
+  <style>
+    th { text-align:left; background-color: #ccc;cursor:pointer;}
+    td { width:150px; }
+    .tableHelper { font-family: 'Arial' }
+    .rowCount { font-weight: bold; }
+  </style>
+</head>
+<body>
+  <div data-ng-app="directivesModule"
+       data-ng-controller="CustomersController">
+    <h3 ng-click="addCustomer()">Table Helper Controller Directive</h3>
+    <br>
+    <table-helper datasource="customers">
+      <header mapsto="name">Name</header>
+      <header mapsto="street">Street</header>
+      <header mapsto="age">Age</header>
+    </table-helper>
+  </div>
+  <script src="../../scripts/angular.js"></script>
+  <script src="../../scripts/directivesController.js"></script>
+  <script src="tableHelperTransclude.js"></script>
+  <script src="tableHelperTranscludeHeading.js"></script>
+</body>
+</html>
+
+#### tableHelperTransclude.js:
+
+(function() {
+
+  var tableHelperTransclude = function () {
+
+    var link = function(scope, elem, attrs) {
+
+      // Get the order of the header columns
+      // Used in vm.getRowValues() below to ensure proper rendering order.
+
+      var ths = elem.find('thead').find('tr').children();
+      for (var i=0;i<ths.length;i++) {
+        scope.vm.columns.push(ths[i].getAttribute('mapsto'));
+      };
+    },
+
+    controller = ['$scope', function($scope) {
+      var vm = this;
+      vm.reverse = false;
+      vm.columns = [];
+      vm.orderby;
+
+      // Handle sorting of data as user clicks on a column in the table
+
+      vm.sort = function(col) {
+        vm.reverse = (vm.orderby === col) ? !vm.reverse: false;
+        
+        // used in template to set the orderBy filter for table rows
+        vm.orderby = col;
+      }
+
+      // Iterating through a row's properties won't guarantee the proper
+      // order of the columns (they may not match with the headers).
+      // The link() function parses the <header> child directives
+      // to update vm.columns which is used here to ensure that the data
+      // columns match up with the header columns.
+
+      vm.getRowValues = function(row) {
+        var sortedValues = [];
+
+        // Columns array ordered according to the headers in template, 
+        // ordering performed in link function above.
+        // For each column -- name, street, age -- find a given row's 
+        // (customer's) corresponding value and push it into the 
+        // sortedValues array
+
+        vm.columns.forEach(function(prop) {
+          sortedValues.push(row[prop]);
+        });
+        return sortedValues;
+      };
+    }];
+
+    return {
+      restrict: 'E',
+      transclude: true, // going to transclude child content into thead section
+      scope: {
+        columnmap: '@',
+        datasource: '='
+      },
+      controller: controller,
+      controllerAs: 'vm',
+      bindToController: true,
+      link: link,
+      templateUrl: 'tableHelperTranscludeTemplate.html'
+    };
+  };
+
+  angular.module('directivesModule')
+    .directive('tableHelper', tableHelperTransclude);
+}());
+
+Recall the customers array from the CustomersController:
+  $scope.customers = [
+    {
+      name: 'David',
+      street: '1234 Anywhere St.',
+      age: 25,
+      url: 'index.html'
+    },
+    {
+      name: 'Tina',
+      street: '1800 Crest St.',
+      age: 35,
+      url: 'index.html'
+    },
+    {
+      name: 'Michelle',
+      street: '890 Main St.',
+      age: 29,
+      url: 'index.html'
+    },
+    {
+      name: 'John',
+      street: '444 Cedar St.',
+      age: 18,
+      url: 'index.html'
+    }
+  ];
+
+The reason we have to put in the mapsto property is that the customers array will be parsed with each customer on a row and each customer property in a column, but the columns will be arranged in alphabetical order of the property by default. 
+
+In order to specify the order we want in the table -- name, then street, then age -- we have to order our headings accordingly and tell Angular how the headings map to the customer object properties.
+
+At this point we have a tableHeader that's going to render a thead that's empty, and that will iterate through all the rows in the sorted customers array.
+
+Now we need to convert the header directives into actual <th> tags in the 
+<thead>
+  <tr>
+    <th>
+  </tr>
+</thead>
+...and transclude them into the head of the table.
+
+#### the directive for the column headings, tableHelperTranscludeHeading.js:
+
+(function() {
+
+  var controllerAs = function () {
+
+    // will have to include the tableHelper controller and the transclude 
+    // functionality.
+    // Any time you have transclude: true in your DDO, your link function
+    // automatically has transclude as an additional parameter after scope,
+    // element, and attrs
+
+    var link = function(scope, elem, attrs, tableHelperCtrl, transclude) {
+      
+      // transclude is a function that takes the scope and has as its second 
+      // parameter a callback that contains the content that will be 
+      // transcluded
+
+      transclude(scope, function(content) {
+
+        // Create a <th> tag for every header that's defined, and put
+        // the 'content' inside it.
+        // The 'content' will be the inner html of the <header> tags --
+        // 'Name', 'Street', and 'Age'
+
+        var th = angular.element('<th mapsto="' + scope.mapsto + '">' +
+                                 content.html() + '</th>');
+          // ^^^ the content to be transcluded into the table will
+          // automatically be stacked vertically, but we want them to be 
+          // the column headings, arranged horizontally
+
+          // so we have to replace the existing <header> tags with the 
+          // <th> tags that we're building
+
+        // We required the tableHelperCtrl above so that we could apply
+        // the sort functionality to our newly created <th> tags
+
+        th.on('click', function() {
+          scope.$apply(function() {
+
+            // Sort by the property indicated by the mapsto attribute.
+            // The sort will not work until we call it inside scope.$apply
+            // because the sort is being treated as a normal JavaScript
+            // call, not a function inside the Angular context
+
+            tableHelperCtrl.sort(scope.mapsto);
+          });
+        });
+
+        // elem still represents the <header> tag, so we need to replace the
+        // content of the <header> with the <th> tag -- replaceWith is a
+        // jqLite function
+ 
+        elem.replaceWith(th);
+
+      });
+
+    };
+
+    return {
+      restrict: 'E',
+      transclude: true,        // we're going to transclude our content into 
+                               // the heading section
+
+      require: '^tableHelper', // tells Angular to look locally or go up a
+                               // level to find this element -- since our
+                               // header will be nested, will have to go up
+                               // a level
+      scope: {
+        mapsto: '@'
+      },
+      link: link
+    };
+  };
+
+  angular.module('directivesModule')
+    .directive('header', controllerAs);
+}());
+
+#### external template to load, tableHelperTranscludeTemplate.html:
+
+<div>
+  <table>
+    <thead>
+      <tr ng-transclude>
+        <!-- The <th> tags we created in our tableHelperHeading directive will be the content that's transcluded here -->
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="row in vm.datasource | orderBy:vm.orderby:vm.reverse">
+        <td ng-repeat="value in vm.getRowValues(row)">{{value}}</td>
+      </tr>
+    </tbody>
+  </table>
+  <br>
+  <div class="rowCount">{{vm.datasource.length}} rows</div>
+</div>
 
 
+## Bonus content 
+
+### Building a Custom Validation Directive
+
+A directive that will validate things like email addresses to make sure they're not duplicated on the backend.
+
+A view named customerEdit.html requires a unique email address as customers are added/modified.
+
+If interested in looking at the angular service that actually makes calls to the server to check for email uniqueness, etc. 
+
+To see how this works in its full application context, you can go to Dan Wahlin's github and check out his [Customer Manager Samplae App](https://github.com/DanWahlin/CustomerManagerStandard).
+ 
+#### customerEdit.html:
+
+<div class="view">
+  <div class="container">
+    <header>
+        <h3><span class="glyphicon glyphicon-edit"></span> {{vm.title}} Customer</h3>
+    </header>
+    <form name="editForm" 
+          novalidate>
+      <div class="customerEdit">
+        <div class="row">
+          <div class="col-md-12">
+            <h4>{{ vm.customer.firstName + ' ' + vm.customer.lastName }} 
+              <span data-ng-hide="vm.customer.id == 0">(
+                <a style="font-size:12pt" 
+                   href="#/customerorders/{{vm.customer.id}}">View Orders</a>)
+              </span>
+            </h4>
+            <br />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-2">
+              First Name:
+          </div>
+          <div class="col-md-10">
+            <input type="text" 
+                   name="firstName" 
+                   class="form-control" 
+                   data-ng-model="vm.customer.firstName" 
+                   required />
+            <span class="errorMessage" 
+                  ng-show="editForm.firstName.$touched && editForm.firstName.$invalid">
+                First name is required
+            </span>
+          </div>
+        </div>
+        <br />
+        <div class="row">
+          <div class="col-md-2">
+              Last Name:
+          </div>
+          <div class="col-md-10">
+            <input type="text" 
+                   name="lastName" 
+                   class="form-control" 
+                   data-ng-model="vm.customer.lastName" 
+                   required />
+            <span class="errorMessage" 
+                  ng-show="editForm.lastName.$touched && editForm.lastName.$invalid">
+                Last name is required
+            </span>
+          </div>
+        </div>
+        <br />
+        <div class="row">
+          <div class="col-md-2">
+              Gender:
+          </div>
+          <div class="col-md-10">
+            <div class="radio">
+              <label class="radio">
+                <input type="radio" 
+                       name="gender" 
+                       value="Male"
+                       data-ng-checked="vm.customer.gender == 'Male'"
+                       data-ng-model="vm.customer.gender" />
+                Male
+              </label>
+            </div>
+            <div class="radio">
+              <label class="radio">
+                <input type="radio" 
+                       name="gender" 
+                       value="Female"
+                       data-ng-checked="vm.customer.gender == 'Female'"
+                       data-ng-model="vm.customer.gender" />
+                Female
+                <br />
+              </label>
+            </div>
+          </div>
+        </div>
+        <br />
+        <div class="row">
+          <div class="col-md-2">
+              Email:
+          </div>
+          <div class="col-md-10">
+            <!-- allowInvalid added below so that the model isn't wiped
+            out (the default behavior) if email is determined to be invalid due to being a duplicate-->
+            <input type="text" 
+                   name="email"
+                   class="form-control"
+                   data-ng-model="vm.customer.email"
+                   data-ng-model-options="{ updateOn: 'blur', allowInvalid: true }"
+                   data-wc-unique
+                   data-wc-unique-key="{{vm.customer.id}}"
+                   data-wc-unique-property="email"
+                   data-ng-minlength="3"
+                   required />
+            <!-- Show error if touched and unique is in error -->
+            <span class="errorMessage" 
+                  ng-show="editForm.email.$touched && editForm.email.$error.unique">
+                Email already in use
+            </span>
+          </div>
+        </div>
+        <br />
+        <div class="row">
+          <div class="col-md-2">
+              Address:
+          </div>
+          <div class="col-md-10">
+            <input type="text" 
+                   name="address" 
+                   class="form-control" 
+                   data-ng-model="vm.customer.address" 
+                   required />
+            <span class="errorMessage" 
+                  ng-show="editForm.address.$touched && editForm.address.$invalid">
+                Address is required
+            </span>
+          </div>
+        </div>
+        <br />
+        <div class="row">
+          <div class="col-md-2">
+              City:
+          </div>
+          <div class="col-md-10">
+            <input type="text" 
+                   name="city" 
+                   class="form-control" 
+                   data-ng-model="vm.customer.city" 
+                   required />
+            <span class="errorMessage" 
+                  ng-show="editForm.city.$touched && editForm.city.$invalid">
+                City is required
+            </span>
+          </div>
+        </div>
+        <br />
+        <div class="row">
+          <div class="col-md-2">
+              State:
+          </div>
+          <div class="col-md-10">
+            <select name="state" 
+                    required 
+                    class="form-control"
+                    data-ng-model="vm.customer.stateId"
+                    data-ng-options="state.id as state.name for state in vm.states">
+                <option value=""></option>
+            </select>
+            <span class="errorMessage" 
+                  ng-show="editForm.state.$touched && editForm.state.$invalid">
+                2 character state is required
+            </span>
+          </div>
+        </div>
+        <br />
+        <div class="row">
+          <div class="col-md-2">
+              Zip:
+          </div>
+          <div class="col-md-10">
+            <input type="number" 
+                   name="zip" 
+                   class="form-control" 
+                   data-ng-model="vm.customer.zip" 
+                   required />
+            <span class="errorMessage" 
+                  ng-show="editForm.zip.$touched && editForm.zip.$invalid">
+                Zip is required
+            </span>
+          </div>
+        </div>
+        <br />
+        <div class="row">
+          <div class="col-md-12">
+            <button type="submit" 
+                    class="btn btn-primary" 
+                    data-ng-click="vm.saveCustomer()"
+                    ng-disabled="editForm.$invalid || !editForm.$dirty">
+                {{vm.buttonText}}
+            </button>
+            &nbsp;&nbsp;
+            <button class="btn btn-danger" 
+                    data-ng-if="vm.customer.id > 0" 
+                    data-ng-click="vm.deleteCustomer()">Delete</button>
+          </div>
+        </div>
+        <br />
+        <div class="statusRow">
+          <br />
+          <div class="label label-success" 
+               data-ng-show="vm.updateStatus">
+              <span class="glyphicon glyphicon-thumbs-up icon-white"></span>&nbsp;&nbsp;Customer updated!
+          </div>
+        </div>
+        <div class="statusRow">
+          <br />
+          <div class="label label-important" 
+               data-ng-show="vm.errorMessage">
+              <span class="glyphicon glyphicon-thumbs-down icon-white"></span>&nbsp;&nbsp;Error: {{ vm.errorMessage }}
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+#### wcUnique Directive Shell Code:
+
+(function() {
+  var injectParams = ['$q', 'dataService'];
+  var wcUniqueDirective = function ($q, dataService) {
+    return {
+      restrict: 'A',
+      require: 'ngModel',
+
+      // link() function uses $asyncValidators, a property off of the
+      // ngModelController that allows us to tack on our own custom
+      // properties, like unique below
+
+      // Dan Wahlin grabs the modelView/viewValue for the email being
+      // inputted, as well as the key (customer id) and property, then uses
+      // a service/factory to call the server with a promises to resolve
+      // or reject true/false
+
+      link: function(scope, element, attrs, ngModel) { 
+        ngModel.$asyncValidators.unique = function(modelValue, viewValue) {
+          var deferred = $q.defer,
+              currentValue = modelValue || viewValue,
+              key = attrs.wcUniqueKey,
+              property = attrs.wcUniqueProperty;
+
+          // The first time the $asyncValidators service is loaded the key
+          // won't be set, so ensure that we have key and property before
+          // checking with the server    
+
+          if (key && property) {
+            dataService.checkUniqueValue(key, property, currentValue)
+              .then(function(unique) {
+                if (unique) {
+                  deferred.resolve(); // returned true, it is unique
+                } else {
+                  deferred.reject(); // returned false, add unique to $errors
+                }
+            });  
+          } else {
+            return $q.when(true);
+          }
 
 
+          return deferred.promise;
+        }
+      }    
+    };
+  };
+
+  wcUniqueDirective.$inject = injectParams;
+
+  angular.module('customersApp').directive('wcUnique', wcUniqueDirective);
+
+}());
+
+And here's the #### dataService.js:
+(function () {
+
+  var injectParams = ['config', 'customersService', 'customersBreezeService'];
+
+  var dataService = function (config, customersService, customersBreezeService) {
+      return (config.useBreeze) ? customersBreezeService : customersService;
+  };
+
+  dataService.$inject = injectParams;
+
+  angular.module('customersApp').factory('dataService', dataService);
+
+}());
 
 
+### Building an Ajax Overlay Directive
+
+May want to show or hide an overlay -- a spinner, an icon, or some text -- while the Ajax call is being made and until it is returned.
+
+We're going to do this by tying into an Angular service called $httpInterceptors.
+
+Did an Ajax request go out? And did it come back?
+
+the wcOverlay directive captures XHR requests/responses and shows/hides an overlay accordingly.
+
+The directive performs several tasks:
+  - monitors XHR requests and responses
+  - displays an overlay as the request is started (unless the response returns before the 300 msec delay is over)
+  - hides the overlay as the response returns
+  - accesses the DOM to show/hide overlay content
+
+overlay directive in html (will be transcluded into directive's template):
+<div wc-overlay wc-overlay-delay="300">
+  <br><img src="/Content/images/spinner.gif">
+  Loading
+</div>
+
+template inside overlay directive:
+<div id="overlay-container" class="overlayContainer">
+  <div id="overlay-background" class="overlayBackground"></div>
+  <div id="overlay-content" class="overlayContent" data-ng-transclude>
+    <!-- This is where the content will go when the overlay is initiated. In the above example, it will be a spinner gif and the word 'Loading' -->
+  </div>
+</div>
+
+#### wcOverlay.js:
+
+(function() {
+  var injectParams = ['$q', '$timeout', '$window', 'httpInterceptor'];
+  var wcOverlayDirective = function ($q, $timeout, $window, httpInterceptor) { 
+    return {
+      restrict: 'EA',
+      transclude: true,
+      scope: { wcOverlayDelay = '@' },
+      template: '<div id="overlay-container" class="overlayContainer">' + 
+                  '<div id="overlay-background" class="overlayBackground"></div>' + 
+                  '<div id="overlay-content" class="overlayContent" data-ng-transclude>' +
+                  '</div>' +
+                '</div>',
+      link: function(scope, element, attrs) { 
+        var overlayContainer = null,
+            timerPromise = null,
+            timerPromiseHide = null,
+            queue = [];
+
+        init();
+
+        // When link is called, it will call init() and wire up the
+        // httpInterceptor
+
+        function init() {
+          wireUpHttpInterceptor();
+          if (window.jQuery) wirejQueryInterceptor();
+          overlayContainer = element[0].firstChild; // Get to template
+        }
+
+        // Here's how we actually hook the httpInterceptor factory in to
+        // the $httpProvider's interceptors to handle the 
+        // request/response/error:
+
+        // **request, response, and responseError are properties on the
+        // httpInterceptor object, per the docs**
+
+        function wireUpHttpInterceptor() {
+          httpInterceptor.request = function(config) {
+            processRequest();
+            return config || $q.when(config);
+          };
+          httpInterceptor.response = function(response) {
+            processResponse();
+            return response || $q.when(response);
+          };
+          httpInterceptor.responseError = function(rejection) {
+            
+            // if an error comes back, treat it as if a response came back 
+            // successfully so that the overlay gets removed instead of stuck forever
+            
+            processResponse();
+            return $q.when(rejection);
+          };
+        }
+
+        // Monitor jQuery Ajax calls in case it's used in the app
+        
+        function wirejQueryInterceptor() {
+          $(document).ajaxStart(function() {
+            processRequest();
+          });
+          $(document).ajaxComplete(function() {
+            processResponse();
+          });
+          $(document).ajaxError(function() {
+            processResponse();
+          });
+        }
+
+        function processRequest() {
+          queue.push({});
+          if (queue.length == 1) {
+            timerPromise = $timeout(function() {
+              if (queue.length) showOverlay();
+            }, scope.wcOverlayDelay ? scope.wcOverlayDelay : 500);
+          }
+        }
+
+        function processResponse() {
+          queue.pop();
+          if (queue.length == 0) {
+            
+            // Since we don't know if another XHR request will be made, 
+            // pause before hiding the overlay. If another XHR request
+            // comes in, then the overlay will stay visible, which prevents
+            // a flicker.
+
+            timerPromiseHide = $timeout(function() {
+              
+              // Make sure the queue is still 0 since a new XHR request may
+              // have been made while the timer was running
+
+              if (queue.length == 0) {
+                hideOverlay();
+                if (timerPromiseHide) $timeout.cancel(timerPromiseHide);
+              }
+            }, scope.wcOverlayDelay ? scope.wcOverlayDelay : 500);
+          }
+        }
+
+        function showOverlay() {
+          var w = 0;
+          var h = 0;
+          if (!$window.innerWidth) {
+            if (!(document.documentElement.clientWidth == 0)) {
+              w = document.documentElement.clientWidth;
+              h = document.documentElement.clientHeight;
+            } else {
+              w = document.body.clientWidth;
+              h = document.body.clientHeight;
+            }
+          } else {
+            w = $window.innerWidth;
+            h = $window.innerHeight;
+          }
+          var content = document.getElementById('overlay-content');
+          var contentWidth = parseInt(getComputedStyle(content, 'width').)
+          var contentHeight = parseInt(getComputedStyle(content, 'height').)
+        
+          content.style.top = h / 2 - contentHeight / 2 + 'px';
+          content.style.left = w / 2 - contentWidth / 2 + 'px';
+
+          overlayContainer.style.display = 'block';
+        }
+
+        function hideOverlay() {
+          if (timerPromise) $timeout.cancel(timerPromise);
+          overlayContainer.style.display = 'none';
+        }
+
+        var getComputedStyle = function() {
+          var func = null;
+          if (document.defaultView && document.defaultView.getComputedStyle) {
+            func = document.defaultView.getComputedStyle;
+          } else if (typeof (document.body.currentStyle) !== 'undefined') {
+            func = function(element, anything) {
+              return element['currentStyle'];
+            }
+          }
+
+          return function(element, style) {
+            return func(element, null)[style];
+          };
+        }();
+      }
+    };
+  };
+  
+  var wcDirectivesApp = angular.module('wc.directives', []);
+
+  // Empty factory to hook into $httpProvider.interceptors
+  // Directive will hook up request, response, and responseError interceptors
+  // so that we can monitor XHR calls
+
+  wcDirectivesApp.factory('httpInterceptor', function() {
+    return {}; // The directive will hook in request/response handlers
+  });
+
+  // At this point the httpInterceptor factory will return nothing but an
+  // empty object literal, but when the directive kicks off, it will allow us
+  // to hook into the request/response pipeline
+
+  wcDirectivesApp.config(['$httpProvider', function($httpProvider) {
+    $httpProvider.interceptors.push('httpInterceptor');
+  }]);
+
+  // Directive that uses the httpInterceptor factory above to monitor XHR calls
+  // When a call is made it displays an overlay and a content area
+  // No attempt has been made at this point to test in older browsers.
+
+  wcOverlayDirective.$inject = injectParams;
+
+  wcDirectivesApp.directive('wcOverlay', wcOverlayDirective);
+
+}());
+
+Once we have defined and wired up the directive, any time we drop the directive into the html where an Ajax call will be made, the overlay will take effect as needed.
+You can change the inside content of the overlay for every instance, depending on what you want shown. 
 
 
+### Building a Menu Highlighter Directive
+
+This one ties into Bootstrap, and highlighting navbar items as they are selected by the user.
+
+Original way to handle this was as follows:
+
+<ul class="navbar navbar-nav nav-pills navBarPadding">
+  <li data-ng-class="{ 'active': highlight('/orders') }">
+    <a href="#/orders">Orders</a>
+  </li>
+  ...
+</ul>
+
+controller's highlight function:
+
+vm.highlight = function(path) {
+  return $location.path().substr(0, path.length) === path;
+}
+
+Now we'll use a menuHighlighter directive to accomplish the same in a more efficient, maintainable way:
+
+<ul class="navbar navbar-nav nav-pills navBarPadding"
+    menu-highlighter
+    highlight-class-name="active">
+  <li><a href="#/customers">Customers</a></li>
+  <li><a href="#/orders">Orders</a></li>
+  <li><a href="#/about">About</a></li>
+  <li id="nav-login" 
+      data-ng-click="loginOrOut()">
+    <a data-href="#/login">{{ loginLogoutText }}</a>
+  </li>
+</ul>
+
+The directive will have:
+  1) a highlightClassName property so that we can add in the active CSS class
+
+... and be responsible for:
+  1) detecting what was clicked
+  2) checking the route
+  3) determining which li elements should be highlighted and which ones should not be highlighted
+
+  This will be a very DOM-driven directive.
+  
+#### menuHighlighter.js:
+
+(function() {
+  var injectParams = ['$location'];
+  var menuHighlighter = function($location) {
+    return {
+      restrict: 'A',
+      scope: {
+        highlightClassName: '@'
+      },
+      link: function(scope, element) { 
+        function setActive() {
+          var path = $location.path;
+
+          // we'll get the CSS class name to apply from the directive's
+          // 'highlight-class-name' attribute 
+
+          var className = scope.highlightClassName || 'active';
+
+          if (path) {
+            angular.forEach(element.find('li'), function(li) {
+
+              // 'li' is just the raw DOM element, so we use the vanilla
+              //  JavaScript querySelector function -- if instead 'li'
+              // represented a jqLite object, we could have used the
+              // li.find('a') jqLite method
+
+              var anchor = li.querySelector('a');
+
+              // Get the href from the href attribute or data-href in cases
+              // where href isn't used
+
+              var href = (anchor && anchor.href) ? anchor.href : anchor.            getAttribute('data-href').replace('#', '');
+
+              // Get the href's value after the '#' 
+              // i.e. '#/orders' becomes '/orders'
+
+              var trimmedHref = href.substr(href.indexOf('#/') + 1, href.length);
+
+              // Convert the path to the same length as the trimmed href
+              var basePath = path.substr(0, trimmedHref.length);
+
+              // Check to see if the href matches the path the user is
+              // currently on, and if so, add the active class to that
+              // li element
+              
+              if (trimmedHref === basePath) {
+                angular.element(li).addClass(className);
+              } else {
+                angular.element(li).removeClass(className);
+              }
+            });
+          }
+        }
+
+        setActive();
+
+        // we need to know when to clear or add the appropriate CSS class,
+        // i.e. when user changes locations/clicks a different li element
+
+        scope.$on('$locationChangeSuccess', setActive);
+      };
+    };
+  };
+
+  menuHighlighter.$inject = injectParams;
+
+  angular.module('wc.directives')
+    .directive('menuHighlighter', menuHighlighter);
+}());
+
+### Building a Custom Validation Directive
+
+Angular does have some built-in directives to perform validation, such as ng-pattern, ng-minlength, ng-maxlength, and ng-required.
+
+But sometimes you may need something custom, and you may want to validate against regex pattern.
+
+Putting this into its own directive will make it reusable to multiple locations within your application.
+
+$touched is a built-in angular directive that indicates that a user has interacted with a form input and then lost focus:
+
+<span class="error form-control"
+      ng-show="validatorForm.email.$touched && validatorForm.email.$error.invalid">Invalid Email</span>
+
+#### validator.html:
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Validator Directive</title>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+      body { margin: 20px; }
+      form { width: 400px; }
+      input.ng-invalid, select.ng-invalid, input.ng-invalid-required, select.ng-invalid.required {
+        border-left: 5px solid #E03930;
+      }
+
+      input.ng-valid, select.ng-valid, input.ng-valid-required, select.ng-valid.required {
+        border-left: 5px solid #57A83F;
+      }
+      .error { background-color: red; color: white; margin-left: 0px; padding: 2px; }
+      [ng-cloak] { display: none !important; }
+    </style>
+  </head>
+  <body>
+    <div data-ng-app="directivesModule"
+         data-ng-controller="CustomersController" 
+         ng-cloak>
+      <h3>Validation Directive</h3>
+      <form name="validatorForm">
+        <div class="form-group">
+          <label>Email:</label>
+          <input type="text" 
+                 placeholder="test@test.com" 
+                 class="form-control"
+                 ng-model="email"
+                 name="email" 
+                 validator="email" />
+          <span class="error form-control"
+                ng-show="validatorForm.email.$touched && validatorForm.email.$error.invalid">Invalid Email</span>
+        </div>
+        <div class="form-group">
+          <label>Phone:</label>
+          <input type="text" 
+                 placeholder="123-123-1234" 
+                 class="form-control"
+                 ng-model="phone"
+                 name="phone" 
+                 validator="phone" />
+          <span class="error form-control"
+                ng-show="validatorForm.phone.$touched && validatorForm.phone.$error.invalid">Invalid Phone</span>
+        </div>
+        <div class="form-group">
+          <label>Zip Code:</label>
+          <input type="text" 
+                 placeholder="85002" 
+                 class="form-control"
+                 ng-model="zipcode"
+                 name="zipcode" 
+                 validator="zipcode" />
+          <span class="error form-control"
+                ng-show="validatorForm.zipcode.$touched && validatorForm.zipcode.$error.invalid">Invalid Zip Code</span>
+        </div>
+        <div class="form-group">
+          <label>Arrival Date:</label>
+          <input type="text" 
+                 placeholder="01/01/2015" 
+                 class="form-control"
+                 ng-model="date"
+                 name="date" 
+                 validator="date" />
+          <span class="error form-control"
+                ng-show="validatorForm.date.$touched && validatorForm.date.$error.invalid">Invalid Date</span>
+        </div>
+        <button class="btn btn-success" 
+                ng-click="message='Valid!'"
+                ng-disabled="validatorForm.$invalid || validatorForm.$pristine">Submit</button>
+        &nbsp;&nbsp;<span>{{message}}</span>
+      </form>
+    </div>
+    <script src="../../scripts/angular.js"></script>
+    <script src="../../scripts/directivesController.js"></script>
+    <script src="validator.js"></script>
+  </body>
+</html>
+
+In the example, there is a narrow band of color, green or red on the left-hand side of the input box for each field to be entered. 
+The band changes from green to red if the format goes from valid to invalid, and vice versa.
+Under the hood, Angular features properties $valid and $invalid (just like $touched, $dirty, $pristine, et al), and when a particular model object is one or the other, Angular dynamically adds classes ng-valid and ng-invalid to the given input, and you can declare how they should be represented in your CSS.
+
+Our validator will rely on ngModel, so we'll have to require that and pass ngModelCtrl into the link function.
+
+Our validations is going to call upon a few properties of the ngModelController: $validators, $parsers, and $formatters.
+
+Quick notes on the above properties, from the [ngModelController docs](https://docs.angularjs.org/api/ng/type/ngModel.NgModelController):
+
+**$parsers** -- Array of functions to execute, as a pipeline, whenever the control reads value from the DOM. 
+The functions are called in array order, each passing its return value through to the next. 
+The last return value is forwarded to the $validators collection.
+Parsers are used to sanitize / convert the $viewValue. 
 
 
+**$formatters** -- Array of functions to execute, as a pipeline, whenever the model value changes.
+The functions are called in reverse array order, each passing the value through to the next. 
+The last return value is used as the actual DOM value. 
 
 
+**$validators** -- A collection of validators that are applied whenever the model value changes. 
 
+Using $parsers and $formatters rather than $validators gives you a greater degree of control over the data, but using $validators works fine and is a little easier to do.
 
+#### validator.js:
 
+(function() {
 
+  var validator = function () {
 
+    var regexes = {
+      phone: /\b\d{3}[-.]?\d{3}[-.]?\d{4}\b/g,
+      zipcode: /^\d{5}([\-]?\d{4})?$/g,
+      email: /^([\w\.\-_]+)?\w+@[\w-_]+(\.\w+){1,}$/g,
+      date: /^((0?[13578]|10|12)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[01]?))(-|\/)((19)([2-9])(\d{1})|(20)([01])(\d{1})|([8901])(\d{1}))|(0?[2469]|11)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[0]?))(-|\/)((19)([2-9])(\d{1})|(20)([01])(\d{1})|([8901])(\d{1})))$/g
+    };
 
+    var link = function(scope, elem, attrs, ngModelCtrl) {
 
+      // Get the validation type -- email, phone, etc.
+      // Apply the appropriate regex condition to the validation type in scope
 
+      var validationType = attrs.validator,
+        regex = new RegExp(regexes[validationType]);
 
+      // We'll add a function at the very beginning of the $formatters
+      // collection.
+      // When the data is moving from the Model to the View, the $formatters
+      // are called on to validate the data.
 
+      ngModelCtrl.$formatters.unshift(function(value) {
+        setErrorIfInvalid(value);
+        return value;
+      });
+ 
+      // We'll add a function at the very beginning of the $parsers collection
+      // that will take the value we're going to validate.
+      // When the data is moving from the View to the Model, the $parsers get
+      // called on to handle validating the data in a two-way binding
 
+      ngModelCtrl.$parsers.unshift(function(value) {
+        var isValid = setErrorIfInvalid(value);
 
+        // if the value coming from the view is valid regex, we'll allow the 
+        // value to bind to the model, otherwise return undefined
+        return isValid ? value : undefined;
+      });
 
+      function setErrorIfInvalid(value) {
+        var isValid = regex.test(value);
 
+        // Use built-in $setValidity property of ngModelController
+        // from the documentation:
+        
+        // $setValidity(validationErrorKey, isValid);
 
+        // validationErrorKey is the name of the validator. The
+        // validationErrorKey will be assigned to either
+        // $error[validationErrorKey] or $pending[validationErrorKey]
+        // (for unfulfilled $asyncValidators), so that it is available
+        // for data-binding.
 
+        // If isValid is true, then 'invalid' will not get added.
+        // If isValid is false, then 'invalid' will get added.
 
+        ngModelCtrl.$setValidity('invalid', isValid);
 
+        return isValid;
+      }
 
+      // We could add our own 'invalid' property to the ngModelController's
+      // $validators object
 
+      // ngModelCtrl.$validators.invalid = function(modelValue, viewValue) {
+      //   var value = modelValue || viewValue;
 
+        // Test the value, and if it finds a match, then whatever the
+        // user typed into the input is good -- a valid email, phone
+        // number, whatever the expected regex pattern is.
 
+        // If it returns false -- i.e. no match -- then the invalid
+        // property is added on to the $errors object 
+      
+      //   return regex.test(value);
+      // };
 
+    };
 
+    return {
+      restrict: 'A',
+      require: 'ngModel',
+      link: link
+    };
+  };
 
+  angular.module('directivesModule')
+    .directive('validator', validator);
 
-
-
-
-
-
-
-
-
-
-
-
-
+}());
 
 
 
